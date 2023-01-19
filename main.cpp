@@ -1,48 +1,58 @@
-/*
-First negative integer in every window of size k
+// Count Occurences of Anagrams
+//https://practice.geeksforgeeks.org/problems/count-occurences-of-anagrams5839/1
 
-link :https://practice.geeksforgeeks.org/problems/first-negative-integer-in-every-window-of-size-k3345/1
-*/
-
-vector<long long> printFirstNegativeInteger(long long int A[],
-                                             long long int N, long long int k) {
-    long long i = 0;
-    long long j = 0;
-    vector<long long> v;
-    queue<long long>q;
-    while(j < N)
-    {
-        if(A[j] < 0)
+class Solution{
+public:
+    int search(string pat, string txt) {
+        // code here
+    
+        int ans = 0;
+        int i = 0, j = 0;
+        
+        int k = pat.length();
+        // pushing value of pattern string
+       map <char, int> m;
+          for(auto i: pat)
+             m[i]++;
+        // taking count of number of elements in map m
+        int count = m.size();
+        while(j < txt.length())
         {
-            q.push(A[j]);
-        }
-        if(j-i+1 < k)
-        {
-            j++;
-        }
-        else if(j-i+1 == k)
-        {
-            if(q.size() == 0)
+            // 1 calculation if char is present in the the map decrease its count in the map
+            if(m.find(txt[j]) != m.end())
             {
-                v.push_back(0);
+                m[txt[j]]--;
+                // 2 if char 's value in map = 0 then decrease the count 
+                if(m[txt[j]] == 0)
+                {
+                    count--;
+                }
             }
-            else
+            
+            
+            if(j-i+1 <k)
             {
-                v.push_back(q.front());
+                j++;
             }
-            /*
-            if(A[i] == q.front())
+            else if(j-i+1 == k)
             {
-                q.pop();
-            }*/
-            if(A[i] < 0)
-            {
-                q.pop();
+                if(count == 0)
+                {
+                    ans++;
+                }
+                // sliding the window 
+                if(m.find(txt[i]) != m.end())
+                {
+                    m[txt[i]]++;
+                    if(m[txt[i]] == 1)
+                    {
+                        count++;
+                    }
+                }
+                i++; j++;
+                
             }
-            i++;
-            j++;
         }
+        return ans;
     }
-    return v;
-                                                 
- }
+};
